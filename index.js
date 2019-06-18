@@ -12,6 +12,7 @@ function formatQueryParams(params) {
 }
 
 //allows you to search multiple states using a comma
+//see it logged, but having trouble with split for some reason (MDN)
 function removeSpaces(val) {
     return val.split(' ').join('');
  }
@@ -22,16 +23,23 @@ function displayResults(responseJson) {
   $('#results-list').empty();
   // iterate through the items array
   for (let i = 0; i < responseJson.data.length; i++){
-    // for each video object in the items 
+    // for each park object in the data 
     //array, add a list item to the results 
     //list with the video title, description,
     //and thumbnail
-    const addressItem = responseJson.data[i].addresses;
+    const addressItem = responseJson.data[i].addresses[0];
     $('#results-list').append(
       //full name, description, website url
       `<li class="parkList"><h3>${responseJson.data[i].fullName}</h3>
       <p>${responseJson.data[i].description}</p>
       <p><a href="${responseJson.data[i].url}" target= "_blank">${responseJson.data[i].url}</p>
+      <p class="address">
+        ${addressItem.line1}<br>
+        ${addressItem.line2}<br>
+        ${addressItem.city},
+        ${addressItem.stateCode}<br><br>
+        ${addressItem.postalCode}
+      </p>
       </li>`
     )};
   //display the results section  
@@ -51,7 +59,9 @@ function getParkInfo(codes, limitNum) {
     //example: 50
     limit: limitNum,
     //integer; example: 1
-    start: 0
+    start: 0,
+    //need to add another parameter to get addresses
+    fields: 'addresses'
   };
   const queryString = formatQueryParams(params)
   const url = endpointURL + '?' + queryString;
