@@ -1,6 +1,6 @@
 'use strict';
 
-//proper API call: https://developer.nps.gov/api/v1/parks?parkCode=acad&api_key=uXHGqAxVxi0azDOn6hPc4WjrRGr75lKMLkA6vFhe
+//proper API multi-state API call: https://developer.nps.gov/api/v1/parks?api_key=uXHGqAxVxi0azDOn6hPc4WjrRGr75lKMLkA6vFhe&stateCode=tx%2Cmd&limit=10&start=0 
 const apiKey = 'uXHGqAxVxi0azDOn6hPc4WjrRGr75lKMLkA6vFhe'; 
 const endpointURL = 'https://developer.nps.gov/api/v1/parks';
 
@@ -29,7 +29,7 @@ function displayResults(responseJson) {
     const addressItem = responseJson.data[i].addresses;
     $('#results-list').append(
       //full name, description, website url
-      `<li><h3>${responseJson.data[i].fullName}</h3>
+      `<li class="parkList"><h3>${responseJson.data[i].fullName}</h3>
       <p>${responseJson.data[i].description}</p>
       <p><a href="${responseJson.data[i].url}" target= "_blank">${responseJson.data[i].url}</p>
       </li>`
