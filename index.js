@@ -15,6 +15,8 @@ function formatQueryParams(params) {
 //see it logged, but having trouble with split for some reason (MDN)
 function removeSpaces(val) {
     return val.split(' ').join('');
+    //entered tx, md--> ['tx,' 'md']
+    //'tx,md'
  }
 
 function displayResults(responseJson) {
@@ -28,6 +30,7 @@ function displayResults(responseJson) {
     //list with the video title, description,
     //and thumbnail
     const addressItem = responseJson.data[i].addresses[0];
+    console.log(addressItem);
     $('#results-list').append(
       //full name, description, website url
       `<li class="parkList"><h3>${responseJson.data[i].fullName}</h3>
@@ -54,7 +57,8 @@ function getParkInfo(codes, limitNum) {
   console.log(codeList);
   const params = {
     api_key: apiKey,
-    //based off api documentation which talks about how this should be formatted
+    //based off api documentation (https://www.nps.gov/subjects/developer/api-documentation.htm#/parks/getPark)
+    //which talks about how this should be formatted as a comma-delimited list
     stateCode: codeList,
     //example: 50
     limit: limitNum,
@@ -77,6 +81,7 @@ function getParkInfo(codes, limitNum) {
     })
     .then(responseJson => displayResults(responseJson))
     .catch(err => {
+      //part of an error object that is inherent in JavaScript
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
 }
